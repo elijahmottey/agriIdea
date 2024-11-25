@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-gray-100">
+
+    <div class="container mx-auto py-10">
+        <h1 class="text-4xl font-bold text-green-600 text-center mb-8">Agriculture News</h1>
+        
+        <!-- Pagination Controls -->
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <label for="page_size" class="mr-2 text-gray-700">News per page:</label>
+                <select id="page_size" class="border border-gray-300 rounded px-3 py-2">
+                    <option value="5" {% if page_size == 5 %}selected{% endif %}>5</option>
+                    <option value="10" {% if page_size == 10 %}selected{% endif %}>10</option>
+                    <option value="20" {% if page_size == 20 %}selected{% endif %}>20</option>
+                </select>
+            </div>
+
+            <div>
+                <button id="prev_page" class="btn btn-success btn-md mx-auto text-white bg-green-600" 
+                    {% if current_page <= 1 %}disabled{% endif %}><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223"/>
+                      </svg></span> Previous </button>
+                <span class="text-gray-700">Page <span id="current_page" data-page="{{ current_page }}">{{ current_page }}</span> of <span id="total_pages" data-pages="{{ total_pages }}">{{ total_pages }}</span></span>
+                <button id="next_page" class="btn btn-success btn-md mx-auto text-white bg-green-600" 
+                    {% if current_page >= total_pages %}disabled{% endif %}>Next <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671"/>
+                      </svg></span></button>
+            </div>
+        </div>
+
+        <!-- Articles Section -->
+        <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for article in articles %}
+            <div class="bg-white p-3 shadow-md rounded-lg transition-transform duration-300 hover:scale-105">
+                <h2 class="text-xl font-bold mb-3">{{ article.title }}</h2>
+                <p class="text-gray-600 mb-4 text-justify">{{ article.description }}</p>
+                <a href="{{ article.link }}" target="_blank" class="text-green-600 underline">Read more</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

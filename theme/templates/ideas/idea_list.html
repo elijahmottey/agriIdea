@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="font-extrabold text-[2rem] w-auto my-5 text-center">Agricultural Ideas</h1>
+
+<!-- Search Form -->
+<div class="mb-5 flex sticky top-[6rem] z-20 left-2 justify-center">
+    <div class="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[60%] lg:max-w-[30%]">
+        <!-- Search Input -->
+        <input type="search" id="search-input" placeholder="Search by title..." 
+               class="p-3 w-full h-14 border-2 border-slate-300 rounded-lg shadow-md text-black 
+                      focus:outline-none focus:ring-3 focus:ring-green-600 focus:border-green-600 
+                      placeholder-slate-400 transition duration-300 ease-in-out hover:border-green-600">
+
+        <!-- Search Icon -->
+        <span class="absolute inset-y-0 right-3 flex items-center text-green-600">
+            <svg class="w-9 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16.2 11.1a5.1 5.1 0 11-10.2 0 5.1 5.1 0 0110.2 0z"></path>
+            </svg>
+        </span>
+    </div>
+</div>
+
+
+
+<section class="space-x-7 mt-[5rem] w-full bg-gradient-to-br from-green-500 via-yellow-300 to-amber-800 text-white rounded-lg mb-[4rem] h-[100%] p-8">
+    <!-- Results Container -->
+    <div id="ideas-container">
+        {% include 'ideas/idea_list_items.html' %}
+    </div>
+</section>
+
+<script>
+// Function to fetch and display ideas based on the query
+function fetchIdeas(query) {
+    fetch(`?q=${query}`, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest' 
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('ideas-container').innerHTML = data.html;  
+    })
+    .catch(error => console.error('Error fetching ideas:', error));
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedQuery = localStorage.getItem('searchQuery');
+    const searchInput = document.getElementById('search-input');
+
+    if (savedQuery) {
+        searchInput.value = savedQuery;
+        fetchIdeas(savedQuery);  
+    }
+
+    
+    searchInput.addEventListener('keyup', function() {
+        const query = this.value;
+        localStorage.setItem('searchQuery', query);  
+        fetchIdeas(query);  
+    });
+});
+</script>
+
+{% endblock %}

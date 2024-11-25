@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit an Idea</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-lg bg-white shadow-md rounded-lg p-6 mx-4">
+        <h2 class="text-2xl  text-gray-800 mb-6 text-center font-semibold">Submit a New Idea</h2>
+
+        <form method="post" action="{% url 'submit_idea' %}" class="space-y-4" id="idea-form">
+            {% csrf_token %}
+
+            <!-- Title Field -->
+            <div>
+                <label for="title" class="block text-gray-700 font-medium mb-1">Title of your Idea:</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    maxlength="100"
+                    required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                >
+            </div>
+
+            <!-- Description Field -->
+            <div>
+                <label for="description" class="block text-gray-700 font-medium mb-1">Agricultural Idea Description (AID):</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="5"
+                    required
+                    class="w-full px-4 py-9  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button
+                    type="submit"
+                    id="submit-btn"
+                    class="w-full btn btn-success btn-md mx-auto bg-green-600 text-white font-semibold py-2 rounded-md transition duration-200"
+                >
+                    Submit Idea
+                </button>
+            </div>
+        </form>
+
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="hidden flex justify-center items-center mt-4">
+            <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 border-t-4 border-green-600 rounded-full" role="status">
+                <span class="visually-hidden text-[0.3rem]">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        const form = document.getElementById('idea-form');
+        const submitButton = document.getElementById('submit-btn');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        
+        form.addEventListener('submit', function(e) {
+            
+            submitButton.disabled = true; 
+            loadingSpinner.classList.remove('hidden'); 
+        });
+    </script>
+</body>
+</html>

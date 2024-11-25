@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-green-50 min-h-screen flex flex-col items-center px-4 py-12">
+
+    <!-- Display Success Message -->
+    {% if messages %}
+        <div class="w-full max-w-lg mb-4">
+            {% for message in messages %}
+                <div class="bg-green-100 text-green-800 p-4 rounded shadow">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Heading -->
+    <h1 class="text-3xl font-bold text-green-700 mb-6 text-center">Contact Us</h1>
+    <p class="text-gray-700 text-center max-w-2xl mb-8">
+        Have any questions, suggestions, or feedback? Reach out to us – we’d love to hear from you! Fill out the form below, or connect with us directly via our contact details.
+    </p>
+
+    <!-- Contact Form -->
+    <div class="bg-white w-full max-w-lg shadow-md rounded-lg p-8">
+        <form action="{% url 'contact' %}" method="post">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label for="name" class="block text-gray-600 font-semibold mb-2">Your Name</label>
+                <input type="text" name="name" id="name" required
+                       class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-600">
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-gray-600 font-semibold mb-2">Your Email</label>
+                <input type="email" name="email" id="email" required
+                       class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-600">
+            </div>
+
+            <div class="mb-4">
+                <label for="message" class="block text-gray-600 font-semibold mb-2">Message</label>
+                <textarea name="message" id="message" rows="5" required
+                          class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-600"></textarea>
+            </div>
+
+            <button type="submit" class="w-full btn btn-success btn-md mx-auto text-white bg-green-600">
+                Send Message
+            </button>
+        </form>
+    </div>
+
+    <!-- Contact Details -->
+    <div class="text-gray-700 text-center mt-12">
+        <h2 class="text-xl font-semibold text-green-700">Direct Contact</h2>
+        <p class="mt-2">📍 Location: Kasoa Kakraba, Ghana</p>
+        <p>📧 Email: <a href="mailto:Elijahmottey5@gmail.com" class="text-green-600 hover:underline">Elijahmottey5@gmail.com</a></p>
+        <p>📞 Phone: <a href="tel:+233594011618" class="text-green-600 hover:underline">+233 59 4011 618</a></p>
+    </div>
+
+   
+
+    <!-- JavaScript to handle the loading spinner -->
+<script>
+    const form = document.getElementById('contact-form');
+    const submitButton = document.getElementById('submit-btn');
+    const loadingSpinner = document.getElementById('loading-spinner');
+
+    form.addEventListener('submit', function(e) {
+        submitButton.disabled = true; 
+        loadingSpinner.classList.remove('hidden'); 
+    });
+</script>
+
+</div>
+
+{% endblock %}

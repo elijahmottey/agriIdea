@@ -1,0 +1,3 @@
+https://newsdata.io/api/1/news?apikey=pub_56416db84b6c50c290d2822789bea16d2ab99&q=agriculture 
+
+https://newsdata.io/api/1/news?apikey=pub_56416db84b6c50c290d2822789bea16d2ab99&q=agriculture%20ideas 

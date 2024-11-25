@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ seo }} | AgriIdea</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<div id="idea-comments-section" class="p-6 max-w-3xl mx-auto bg-white rounded-lg shadow-md mt-10">
+    <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">{{ idea.title }}</h2>
+    <p class="text-gray-600 mb-6">{{ idea.description }}</p>
+
+    <!-- Comment icon -->
+    <button id="comment-icon" class="flex text-green-600 items-center  hover:text-green-700 focus:outline-none mb-6">
+        💬 <span class="ml-2">Comment</span>
+    </button>
+
+    <!-- Hidden comment form -->
+    <div id="comment-form" class="space-y-4" style="display: none;">
+        <textarea id="comment-text" placeholder="Add your comment"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 resize-none"
+            rows="4"></textarea>
+        <button id="submit-comment"
+            class="px-4  btn-success btn-md mx-auto  bg-green-600 text-white font-semibold py-2 rounded-md transition duration-200 focus:outline-none">
+            Submit 💬
+        </button>
+    </div>
+
+    <!-- Display comments -->
+    <div id="comments-list" class="mt-8 space-y-4">
+        {% for comment in comments %}
+            <div class="comment bg-gray-100 p-4 rounded-md">
+                <p class="text-gray-700">{{ comment.comment_text }}</p>
+                <small class="text-gray-500">{{ comment.date_posted }}</small>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    
+    document.getElementById('comment-icon').addEventListener('click', function() {
+        const form = document.getElementById('comment-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // AJAX for submitting comments
+    document.getElementById('submit-comment').addEventListener('click', function(event) {
+        const commentText = document.getElementById('comment-text').value;
+        const ideaId = "{{ idea.id }}";  
+
+        // Validate the comment
+        if (!commentText.trim()) {
+            alert("Comment cannot be empty!");  
+            return;  
+        }
+
+        // If validation passes, proceed with the AJAX request
+        fetch(`/ideas/${ideaId}/submit_comment/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `comment_text=${encodeURIComponent(commentText)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+
+            document.getElementById('comment-text').value = '';  
+
+            // Add the new comment 
+            const newComment = document.createElement('div');
+            newComment.classList.add('comment', 'bg-gray-100', 'p-4', 'rounded-md');
+            newComment.innerHTML = `<p class="text-gray-700">${data.comment_text}</p><small class="text-gray-500">${data.date_posted}</small>`;
+            document.getElementById('comments-list').prepend(newComment);
+
+            document.getElementById('comment-form').style.display = 'none';  
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
+</body>
+</html>

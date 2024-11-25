@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+{% load static tailwind_tags %}
+{% load static %}
+
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ seo }} | AgriIdea</title>
+    <script src="{% static 'js/mobileNav.js' %}" defer></script>
+    <script src="{% static 'js/news.js' %}" defer></script>
+    <script src="{% static 'js/carousel.js' %}" defer></script>
+    <script src="{% static 'js/animation.js' %}" defer></script>
+    <link rel="shortcut icon" href="{% static 'images/image3.jpg' %}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% tailwind_css %}
+   
+</head>
+<!-- Loading Spinner Styles -->
+<style>
+    #loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    #loading .spinner {
+        border: 4px solid transparent;
+        border-top: 4px solid #4CAF50;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<body class="bg-slate-100 w-full min-h-[100%]">
+
+    <header class="bg-slate-100 sticky  top-0 z-10 shadow">
+        <div class="flex justify-between space-x-4 p-10 w-full h-[6rem]">
+            <div class="flex justify-center items-center space-x-10">
+                <div class="text-green-600 ">
+                    <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-magic" viewBox="0 0 16 16">
+                        <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707zM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1zM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707zM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0z"/>
+                      </svg>
+                </div>
+                <h4 class="font-extrabold text-[2rem] text-green-600">AgriIdea</h4>
+            </div>
+
+            <!-- Hamburger Menu Button for Small Screens -->
+            <div class="lg:hidden flex items-center">
+                <button id="menu-btn" class="text-green-600 focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex justify-center items-center">
+                <ul class="list-none flex justify-evenly space-x-10 text-black">
+                    <a href="{% url 'home' %}" class="hover:text-green-600 hover:underline focus:text-[1.3rem] focus:font-bold transition-all duration-300">
+                        <li>Home</li>
+                    </a>
+                    <a href="{% url 'about' %}" class="hover:text-green-600 hover:underline focus:text-[1.3rem] transition-all duration-300">
+                        <li>About</li>
+                    </a>
+                    <a href="{% url 'idea_list' %}" class="hover:text-green-600 hover:underline focus:text-[1.3rem] transition-all duration-300">
+                        <li>Agri-Ideas</li>
+                    </a>
+                    <a href="{% url 'resources' %}" class="hover:text-green-600 hover:underline focus:text-[1.3rem] transition-all duration-300">
+                        <li>Resource</li>
+                    </a>
+                    <a href="{% url 'news' %}" class="hover:text-green-600 hover:underline focus:text-[1.3rem] transition-all duration-300">
+                        <li>News and Articles</li>
+                    </a>
+                    <a href="{% url 'contact' %}" class="hover:text-green-600 hover:underline focus:text-[1.3rem] transition-all duration-300">
+                        <li>Contact</li>
+                    </a>
+                </ul>
+            </nav>
+
+            <div class="hidden lg:flex justify-center items-center">
+                <a href="{% url 'submit_idea' %}"><button class="btn btn-success btn-md mx-auto text-white bg-green-600">Produce your Idea</button></a>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation (hidden by default) -->
+        <nav id="mobile-menu" class="lg:hidden hidden bg-slate-100 p-4">
+            <ul class="flex flex-col space-y-4 text-black">
+                <a href="{% url 'home' %}" class="hover:text-green-600 hover:underline transition-all duration-300">
+                    <div class="flex hover:text-green-600 space-x-2 border-b-2 font-semibold items-center ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
+                          </svg> <li>Home</li>
+                    </div>
+                </a>
+                <a href="{% url 'about' %}" class="hover:text-green-600 hover:underline transition-all duration-300">
+                    <div class="flex hover:text-green-600 space-x-2 border-b-2 font-semibold items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
+                            <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                            <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                          </svg> <li>About</li>
+                    </div>
+                </a>
+                <a href="{% url 'idea_list' %}" class="hover:text-green-600 hover:underline focus:text-[1.3rem] transition-all duration-300">
+                    <div class="flex hover:text-green-600 space-x-2 border-b-2 font-semibold items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-columns-reverse" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 .5m4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10A.5.5 0 0 1 4 .5m-4 2A.5.5 0 0 1 .5 2h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m4 0a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-4 2A.5.5 0 0 1 .5 4h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m-4 2A.5.5 0 0 1 .5 6h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5m-4 2A.5.5 0 0 1 .5 8h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5m-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5m-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m4 0a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+                          </svg> <li>Agri-Ideas</li>
+                    </div>
+                </a>
+                <a href="{% url 'resources' %}" class="hover:text-green-600 hover:underline transition-all duration-300">
+                    <div class="flex hover:text-green-600 space-x-2 border-b-2 font-semibold items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                          </svg> <li>Resource</li>
+                    </div>
+                </a>
+                <a href="{% url 'news' %}" class="hover:text-green-600 hover:underline transition-all duration-300">
+                   <div class="flex hover:text-green-600 space-x-2 border-b-2 font-semibold items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+                        <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5z"/>
+                      </svg> <li>News and Articles</li>
+                   </div>
+                </a>
+                <a href="{% url 'contact' %}" class="hover:text-green-600 hover:underline transition-all duration-300">
+                    <div class="flex hover:text-green-600 space-x-2 border-b-2 font-semibold items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z"/>
+                          </svg> <li>Contact</li>
+                    </div>
+                </a>
+                <a href="{% url 'submit_idea' %}"><button class="btn flex justify-center btn-success btn-md mx-auto text-white bg-green-600">Produce your Idea</button></a>
+            </ul>
+        </nav>
+    </header>
+
+    {% block content %}
+     <div class="bg-slate-100 w-full h-full">
+      <!--  content here -->
+        <div style="height: 100%;">  
+        
+        </div>
+    </div> 
+    {% endblock %}
+
+    <footer class="w-full h-[12rem] flex flex-col items-center justify-center bg-green-600">
+        <div class="flex justify-center items-center text-white">&COPY; AgriIdea Hub. All rights reserved. </div>
+
+        
+            <a href="{% url 'policy' %}" class=" text-4xl"><p class="text-center hover:font-black hover:underline text-white">Privacy Policy</p></a>
+
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    
+
+    
+
+    <script>
+    
+        window.onload = function() {
+            document.getElementById('loading').style.display = 'none';
+        };
+    </script>
+
+    
+
+
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
