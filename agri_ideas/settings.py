@@ -142,6 +142,8 @@ STATICFILES_DIR = os.path.join(BASE_DIR, 'static')
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+ALLOWED_HOSTS = ['screeching-kanya-livtech-4617c055.koyeb.app']
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
