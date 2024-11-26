@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,12 +88,41 @@ WSGI_APPLICATION = 'agri_ideas.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        'postgresql://neondb_owner:BVZIpWHRb6F1@ep-red-boat-a5xy0c68.us-east-2.aws.neon.tech/neondb?sslmode=require',
+        conn_max_age=600,  # Optional: Reuse connections for performance
+        ssl_require=True,  # Ensure SSL is required
+    )
 }
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'agri_idea',
+#         'USER': 'neondb_owner',
+#         'PASSWORD': 'BVZIpWHRb6F1',
+#         'HOST': 'ep-red-boat-a5xy0c68.us-east-2.aws.neon.tech',
+#         'PORT': '5432',
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#         },
+#     }
+# }
+
+
 
 
 # Password validation
