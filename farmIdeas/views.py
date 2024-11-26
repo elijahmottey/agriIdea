@@ -8,8 +8,12 @@ from .models import ContactUs, Idea, Comment
 from .forms import IdeaForm, CommentForm
 import requests
 
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 
+
+
+# Create your views here.
+@csrf_exempt
 def home(request):
     """
     Renders the homepage with the
