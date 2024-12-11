@@ -172,7 +172,7 @@ STATICFILES_DIR = os.path.join(BASE_DIR, 'static')
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-ALLOWED_HOSTS = ['screeching-kanya-livtech-4617c055.koyeb.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['subsequent-grayce-genesys91-2989c84a.koyeb.app/', 'localhost', '127.0.0.1']
 
 
 CSRF_TRUSTED_ORIGINS = [
