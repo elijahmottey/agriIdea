@@ -172,7 +172,12 @@ STATICFILES_DIR = os.path.join(BASE_DIR, 'static')
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-ALLOWED_HOSTS = ['subsequent-grayce-genesys91-2989c84a.koyeb.app/', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'subsequent-grayce-genesys91-2989c84a.koyeb.app',
+    '127.0.0.1',  # For local testing
+    'localhost',  # Optional for local testing
+]
+
 
 
 CSRF_TRUSTED_ORIGINS = [
